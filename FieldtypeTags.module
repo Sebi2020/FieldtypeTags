@@ -1,0 +1,50 @@
+<?php
+// Copyright (c) 2019 Sebastian Tilders. All rights reserved.
+// This software is licensed under the terms of the GPL 3 which can be found in the LICENSE.md file.
+// THIS SOFTWARE CAMES TO YOU WITHOUT ANY WARRANTY. USE IT AT YOUR OWN RISK.
+namespace ProcessWire;
+class FieldtypeTags extends FieldtypeMulti  {
+	public static function getModuleInfo() {
+		return array(
+			'title' => __('Tags'),
+			'summary' => __('Fieldtype which saves tags'),
+			'author' => 'Sebastian Tilders',
+			'version' => 1,
+			'requires' => array('ProcessWire>=3.0', 'InputfieldTagify'),
+			'icon' => 'tags');
+	}
+
+	public  function getDatabaseSchema(Field $field) {
+		$schema = parent::getDatabaseSchema($field);
+		$schema['data'] = "varchar(64) NOT NULL";
+		$schema['keys']['data'] = 'KEY data (data)';
+		return $schema;
+	}
+	public function sanitizeValue(Page $page, Field $field, $value) {
+		if(is_array($value)) {
+			$value = array_map('trim', $value);
+		} else {
+			$value = trim($value);
+		}
+		return $value;
+	}
+
+	public function ___sleepValue(Page $page, Field $field, $value) {
+		$data = array();
+		if(is_array($value)) {
+			$data = $value;
+		} else {
+			$data = explode(",", $value);
+			$data = array_map('trim', $data);
+		}
+		return $data;
+	}
+	public function ___wakeupValue(Page $page, Field $field, $value) {
+		return $value;
+	}
+
+	public function getInputField(Page $page, Field $field) {
+		return $this->wire('modules')->get("InputfieldTagify");
+	}
+}
+?>
