@@ -9,7 +9,7 @@ class FieldtypeTags extends FieldtypeMulti  {
 			'title' => __('Tags'),
 			'summary' => __('Fieldtype which saves tags'),
 			'author' => 'Sebastian Tilders',
-			'version' => 1,
+			'version' => 2,
 			'requires' => array('ProcessWire>=3.0', 'InputfieldTagify'),
 			'icon' => 'tags');
 	}
@@ -22,8 +22,10 @@ class FieldtypeTags extends FieldtypeMulti  {
 	}
 	public function sanitizeValue(Page $page, Field $field, $value) {
 		if(is_array($value)) {
+			$value = array_map(array($this->wire('sanitizer'), 'text'), $value);
 			$value = array_map('trim', $value);
 		} else {
+			$value = $this->wire('sanitizer')->text($value);
 			$value = trim($value);
 		}
 		return $value;
