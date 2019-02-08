@@ -45,6 +45,23 @@ class FieldtypeTags extends FieldtypeMulti  {
 		return $value;
 	}
 
+	public function getAllTags() {
+		$pages = $this('pages');
+		$pages =  $pages->find("{$this->name}.count>0");
+		$all_tags = array();
+		foreach($pages as $page) {
+			$all_tags = array_merge($all_tags,$page->Tags);
+		}
+		$all_tags = array_count_values($all_tags);
+		ksort($all_tags);
+		return $all_tags;
+	}
+	public function getPagesByTag(string $tag) {
+		$pages = $this('pages');
+		$pages = $pages->find("{$this->name}={$tag}");
+		return $pages;
+	}
+
 	public function getInputField(Page $page, Field $field) {
 		return $this->wire('modules')->get("InputfieldTagify");
 	}
