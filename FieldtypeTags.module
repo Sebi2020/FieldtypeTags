@@ -9,7 +9,7 @@ class FieldtypeTags extends FieldtypeMulti  {
 			'title' => __('Tags'),
 			'summary' => __('Fieldtype which saves tags'),
 			'author' => 'Sebastian Tilders',
-			'version' => 10,
+			'version' => 11,
 			'requires' => array('ProcessWire>=3.0', 'InputfieldTagify'),
 			'icon' => 'tags');
 	}
@@ -45,12 +45,12 @@ class FieldtypeTags extends FieldtypeMulti  {
 		return $value;
 	}
 
-	public function getAllTags() {
+	public function getAllTags(string $fieldname = "tags") {
 		$pages = $this('pages');
 		$pages =  $pages->find("{$this->name}.count>0");
 		$all_tags = array();
 		foreach($pages as $page) {
-			$all_tags = array_merge($all_tags,$page->Tags);
+			$all_tags = array_merge($all_tags,$page->$fieldname);
 		}
 		$all_tags = array_count_values($all_tags);
 		ksort($all_tags);

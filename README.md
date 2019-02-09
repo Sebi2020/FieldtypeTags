@@ -23,12 +23,12 @@ foreach($tags as $tag) {
 $tags = $this('modules')->get("FieldtypeTags");
 
 // Fetch all tags and their frequency.
-foreach($tags->getAllTags() as $field => $count) {
+foreach($tags->getAllTags("Tags") as $field => $count) {
 	echo "<h2>Tag \"{$field}\" (used {$count} times)</h2>";
 	echo "<ul>";
 
 	// Fetch all pages for a given tag
-	foreach($tags->getPagesBytag($field) as $page) {
+	foreach($tags->getPagesByTag($field) as $page) {
 		echo "<li><a href=\"{$page->url}\">{$page->title}</a></li>";
 	}
 	echo "</ul>";
