@@ -9,7 +9,7 @@ class FieldtypeTags extends FieldtypeMulti  {
 			'title' => __('Tags'),
 			'summary' => __('Fieldtype which saves tags'),
 			'author' => 'Sebastian Tilders',
-			'version' => 2,
+			'version' => 10,
 			'requires' => array('ProcessWire>=3.0', 'InputfieldTagify'),
 			'icon' => 'tags');
 	}
